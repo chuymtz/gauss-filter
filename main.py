@@ -53,11 +53,14 @@ self.make_grid()
 
 self.plot(self.grid, save=True, path="images/nofilter.png")
 
-plt.savefig(self.plot(self.grid))
-
 P = np.fft.fft2(self.grid)
 P.shape
 
 def k(m):
     return - self.N/2 + m
 
+from scipy.ndimage import gaussian_filter
+
+X = gaussian_filter(self.grid, 50 * np.log(10))
+
+plt.imshow(X)
