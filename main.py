@@ -32,19 +32,30 @@ class GaussFilter(object):
         else:
             return 0
         
-    def plot(self, a: np.array, T: bool= True, flip: bool=True) -> AxesImage:
+    def plot(self, 
+             a: np.array, 
+             T: bool= True, 
+             flip: bool=True, 
+             save=False, 
+             path:str="./test.png") -> None:
         if T:
             a = np.transpose(a)
         if flip: 
             a = np.flip(a, axis=0)
-        plt.imshow(a)
-
+        
+        if save:
+            plt.imsave(path,a)
+            
+        else:
+            plt.imshow(a)
+        return None
 
 self = GaussFilter(L=4*np.pi)
 self.make_grid()
 
-fig = self.plot(self.grid)
-fig.show()
+self.plot(self.grid, save=True, path="images/nofilter.png")
+
+plt.savefig(self.plot(self.grid))
 
 
 P = np.fft.fft2(self.grid)
