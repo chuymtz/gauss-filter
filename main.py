@@ -17,12 +17,12 @@ class GaussFilter(object):
         x = np.linspace(0,self.L, self.N)
         y = np.linspace(0,self.L, self.N)
         grid = np.zeros(shape=(self.N, self.N))
-        
         for i in range(self.N):
             for j in range(self.N):
                 grid[i, j] = self.phi(x=x[i], y=y[j])
         
         self.grid = grid
+        return None
         
     def phi(self, x: float, y:float) -> int:
         if x > np.sin(y) + self.L/2 + self.W:
@@ -38,17 +38,15 @@ class GaussFilter(object):
              flip: bool=True, 
              save=False, 
              path:str="./test.png") -> None:
-        if T:
-            a = np.transpose(a)
-        if flip: 
-            a = np.flip(a, axis=0)
+        
+        # If some flipping wanted
+        a = np.transpose(a) if T else a
+        a = np.flip(a, axis=0) if flip else a
         
         if save:
             plt.imsave(path,a)
-            
         else:
             plt.imshow(a)
-        return None
 
 self = GaussFilter(L=4*np.pi)
 self.make_grid()
@@ -56,7 +54,6 @@ self.make_grid()
 self.plot(self.grid, save=True, path="images/nofilter.png")
 
 plt.savefig(self.plot(self.grid))
-
 
 P = np.fft.fft2(self.grid)
 P.shape
